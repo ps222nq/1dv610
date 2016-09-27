@@ -1,7 +1,5 @@
 <?php
 
-
-
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -22,7 +20,12 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 */
 	public function response() {
-		$message = '';
+
+	    if(isset($_POST)){
+	        $message = 'Welcome ' . $_POST["LoginView::UserName"];
+	    } else {
+	    	$message = '';
+	    }
 		
 		$response = $this->generateLoginFormHTML($message);
 		return $response;
@@ -50,7 +53,7 @@ class LoginView {
 	*/
 	private function generateLoginFormHTML($message) {
 		return '
-			<form method="POST" action="index.php">
+			<form method="POST">
 				<fieldset>
 					<legend>Login - enter Username and password</legend>
 					<p id="' . self::$messageId . '">' . $message . '</p>
@@ -72,7 +75,6 @@ class LoginView {
 	
 	//TODO: CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
 	private function getRequestUserName() {
-		return $_POST["LoginView::UserName"];
 	}
 	
 }
