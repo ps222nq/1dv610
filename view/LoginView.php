@@ -1,5 +1,7 @@
 <?php
 
+require_once("controller/LoginFormController.php");
+
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -38,7 +40,7 @@ class LoginView {
 	* @return  void, BUT writes to standard output!
 	*/
 	private function generateLogoutButtonHTML($message) {
-		return '
+		echo '
 			<form  method="post" >
 				<p id="' . self::$messageId . '">' . $message .'</p>
 				<input type="submit" name="' . self::$logout . '" value="logout"/>
@@ -52,7 +54,7 @@ class LoginView {
 	* @return  void, BUT writes to standard output!
 	*/
 	private function generateLoginFormHTML($message) {
-		return '
+		echo '
 			<form method="POST">
 				<fieldset>
 					<legend>Login - enter Username and password</legend>
