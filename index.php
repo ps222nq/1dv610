@@ -14,10 +14,14 @@ $v = new LoginView();
 $dtv = new DateTimeView();
 $lv = new LayoutView();
 
-
+if(isset($_SESSION)){
+    session_destroy();
+}
 session_start();
 
 if(!isset($_SESSION["loggedIn"])){
+    $lv->renderIsNotLoggedIn($v, $dtv);
+} elseif (isset($_POST["LoginView::Logout"])){
     $lv->renderIsNotLoggedIn($v, $dtv);
 } elseif ($_SESSION["loggedIn"] == false){
     $lv->renderIsNotLoggedIn($v, $dtv);

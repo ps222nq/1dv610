@@ -12,57 +12,53 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 
-	/**
-	 * Create HTTP response
-	 *
-	 * Should be called after a login attempt has been determined
-	 *
-	 * @return  void BUT writes to standard output and cookies!
-	 */
+
 	public function response() {
+
+        $lc = new \controller\LoginController($_POST);
 
 	    if(isset($_POST["loggedIn"]) && $_POST["loggedIn"] == TRUE){
 	        $message = 'Welcome ' . $_POST["LoginView::UserName"];
-	    } elseif (isset($_POST["loggedIn"]) && isset($_POST["loggedIn"])) {
-            $lc = new \controller\LoginController($_POST);
-	    	$message = $lc->doLogin();
+	    } elseif (isset($_POST["LoginView::Login"])) {
+            $message = $lc->doLogin();
+        } elseif (isset($_POST["LoginView::Logout"])){
+            $message = $lc->doLogout();
 	    } else {
             $message = '';
         }
-		
-		$this->generateLoginFormHTML($message);
+
+        if($lc->authenticated === true){
+            return $this->generateLogoutButtonHTML($message);
+        }
+		return $this->generateLoginFormHTML($message);
 
 
 	}
 
-	/**
-	* Generate HTML code on the output buffer for the logout button
-	* @param $message, String output message
-	* @return  void, BUT writes to standard output!
-	*/
 	private function generateLogoutButtonHTML($message) {
-		echo '
-			<form  method="post" >
+		return '
+			<form  method="post" action="index.php" >
 				<p id="' . self::$messageId . '">' . $message .'</p>
 				<input type="submit" name="' . self::$logout . '" value="logout"/>
 			</form>
 		';
 	}
-	
-	/**
-	* Generate HTML code on the output buffer for the logout button
-	* @param $message, String output message
-	* @return  void, BUT writes to standard output!
-	*/
+
 	private function generateLoginFormHTML($message) {
-		echo '
-			<form method="POST">
+
+	    $userNameFromLogin = "";
+        if(isset($_POST["LoginView::UserName"])){
+            $userNameFromLogin = $_POST["LoginView::UserName"];
+        }
+
+		return '
+			<form method="POST" action="index.php">
 				<fieldset>
 					<legend>Login - enter Username and password</legend>
 					<p id="' . self::$messageId . '">' . $message . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
-					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="" />
+					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="'. $userNameFromLogin .'" />
 
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />

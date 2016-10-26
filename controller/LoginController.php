@@ -2,7 +2,10 @@
 namespace controller;
 require_once("model/Database.php");
 class LoginController {
+
     private $data;
+    public $authenticated = false;
+
     public function __construct($formData)
     {
         $this->data = $formData;
@@ -20,6 +23,7 @@ class LoginController {
         } else {
             if($this->authenticateUser($username, $password)){
                 $this->setSessionOnLogin($username);
+                $this->authenticated = true;
                 return "Welcome";
             } else {
                 return "Wrong name or password";
