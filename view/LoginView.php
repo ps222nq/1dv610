@@ -29,8 +29,8 @@ class LoginView {
 	    	$message = '';
 	    }
 		
-		$response = $this->generateLoginFormHTML($message);
-		return $response;
+		$this->generateLoginFormHTML($message);
+
 
 	}
 
