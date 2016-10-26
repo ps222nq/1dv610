@@ -4,7 +4,7 @@
 class LayoutView
 {
 
-    public function renderIsNotLoggedIn(LoginView $v, DateTimeView $dtv)
+    public function renderIsNotLoggedIn($v, DateTimeView $dtv)
     {
         echo '<!DOCTYPE html>
       <html>
@@ -14,6 +14,7 @@ class LayoutView
         </head>
         <body>
           <h1>Assignment 2</h1>
+          <a href="?register=1">Register a new user</a>
           <h2>Not logged in</h2>
           
           <div class="container">
@@ -36,6 +37,7 @@ class LayoutView
         </head>
         <body>
           <h1>Assignment 2</h1>
+          <a href="?register=1">Register a new user</a>
           <h2>Logged in</h2>
           
           <div class="container">
@@ -47,5 +49,4 @@ class LayoutView
       </html>
     ';
     }
-
 }
