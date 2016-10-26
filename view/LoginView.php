@@ -21,7 +21,7 @@ class LoginView {
 	        $message = 'Welcome ' . $_POST["LoginView::UserName"];
 	    } elseif (isset($_POST["LoginView::Login"])) {
             $message = $lc->doLogin();
-        } elseif (isset($_POST["LoginView::Logout"])){
+        } elseif (isset($_POST["LoginView::Logout"]) && $_SESSION["loggedIn"] === true){
             $message = $lc->doLogout();
 	    } else {
             $message = '';

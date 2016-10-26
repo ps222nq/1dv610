@@ -55,8 +55,8 @@ class RegistrationController {
 
     private function formFieldsAreEmpty()
     {
-        if(empty($this->data["RegisterView::UserName"]) || empty($this->data["RegisterView::Password"])){
-            $formErrorMessage = "Username has too few characters, at least 3 characters.";
+        if(empty($this->data["RegisterView::UserName"]) && empty($this->data["RegisterView::Password"])){
+            $this->formErrorMessage = "Username has too few characters, at least 3 characters. Password has too few characters, at least 6 characters.";
             return true;
         } else {
             return false;
@@ -68,7 +68,9 @@ class RegistrationController {
         $candidate = $this->data["RegisterView::UserName"];
 
         if($this->usernameIsLongEnough($candidate) == true && $this->stringHasIllegalCharacters($candidate) == false){
-            $this->validUsername = true;
+            if($this->usernameIsUnique($candidate) == true){
+                $this->validUsername = true;
+            }
         }
     }
 
@@ -90,6 +92,20 @@ class RegistrationController {
         } else {
             return false;
         }
+    }
+
+    private function usernameIsUnique($username)
+    {
+        //TODO: function should call a method in Database model (not yet implemented) that checks if username exists in DB.
+        //Warning: Currently not working but implemented to compare to "Admin" username for testing purposes
+
+        if($username == "Admin"){
+            $this->usernameErrorMessage = "User exists, pick another username.";
+            return false;
+        } else {
+            return true;
+        }
+
     }
 
     private function validatePassword() {

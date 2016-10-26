@@ -23,11 +23,12 @@ session_start();
 
 if(isset($_GET["register"])){
     $lv->renderIsNotLoggedIn($rv, $dtv);
-}elseif(!isset($_SESSION["loggedIn"])){
+    //TODO: Adapt this to handle the case where page refresh logs back in (test 1.8.1)
+}elseif(!isset($_SESSION["loggedIn"]) || isset($_POST["LoginView::Login"])){
     $lv->renderIsNotLoggedIn($v, $dtv);
 } elseif (isset($_POST["LoginView::Logout"])){
     $lv->renderIsNotLoggedIn($v, $dtv);
-} elseif ($_SESSION["loggedIn"] == false){
+} elseif (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == false){
     $lv->renderIsNotLoggedIn($v, $dtv);
 } else {
     $lv->renderIsLoggedIn($v, $dtv);

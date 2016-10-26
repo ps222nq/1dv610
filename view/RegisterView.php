@@ -26,7 +26,7 @@ class RegisterView {
     {
         $nameToPrefillOnError = "";
         if(isset($_POST["RegisterView::UserName"])){
-            $nameToPrefillOnError = $_POST["RegisterView::UserName"];
+            $nameToPrefillOnError = strip_tags($_POST["RegisterView::UserName"]);
         }
 
         return '<form method="POST" action="index.php?register=1">
