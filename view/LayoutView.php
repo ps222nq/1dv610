@@ -6,6 +6,8 @@ class LayoutView
 
     public function renderIsNotLoggedIn($v, DateTimeView $dtv)
     {
+        $res = $v->response();
+
         echo '<!DOCTYPE html>
       <html>
         <head>
@@ -18,7 +20,7 @@ class LayoutView
           <h2>Not logged in</h2>
           
           <div class="container">
-              ' . $v->response() . '
+              ' . $res . '
               
               ' . $dtv->show() . '
           </div>
@@ -29,6 +31,8 @@ class LayoutView
 
     public function renderIsLoggedIn(LoginView $v, DateTimeView $dtv)
     {
+        $res = $v->response();
+
         echo '<!DOCTYPE html>
       <html>
         <head>
@@ -41,7 +45,7 @@ class LayoutView
           <h2>Logged in</h2>
           
           <div class="container">
-              ' . $v->response() . '
+              ' . $res . '
               
               ' . $dtv->show() . '
           </div>
