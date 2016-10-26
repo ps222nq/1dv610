@@ -13,7 +13,8 @@ class Database {
         $this->foo = true;
     }
 
-    public function authenticateUser($username, $password){
+    public function authenticateUser($username, $password)
+    {
         if($username == $this->testUser && $password == $this->testPass){
             return true;
         } else {

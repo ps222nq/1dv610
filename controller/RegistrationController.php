@@ -4,7 +4,8 @@ namespace controller;
 
 require_once("model/Database.php");
 
-class RegistrationController {
+class RegistrationController
+{
 
     private $data;
     private $validPassword = false;
@@ -63,8 +64,8 @@ class RegistrationController {
         }
     }
 
-    private function validateUserName() {
-
+    private function validateUserName()
+    {
         $candidate = $this->data["RegisterView::UserName"];
 
         if($this->usernameIsLongEnough($candidate) == true && $this->stringHasIllegalCharacters($candidate) == false){
@@ -108,8 +109,8 @@ class RegistrationController {
 
     }
 
-    private function validatePassword() {
-
+    private function validatePassword()
+    {
         $candidate = $this->data["RegisterView::Password"];
         $repeat = $this->data["RegisterView::PasswordRepeat"];
 

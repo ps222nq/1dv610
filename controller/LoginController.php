@@ -1,7 +1,11 @@
 <?php
+
 namespace controller;
+
 require_once("model/Database.php");
-class LoginController {
+
+class LoginController
+{
 
     private $data;
     public $authenticated = false;
@@ -10,6 +14,7 @@ class LoginController {
     {
         $this->data = $formData;
     }
+
     public function doLogin()
     {
         if(isset($_POST['LoginView::Login'])){
@@ -39,13 +44,14 @@ class LoginController {
             return "Something went wrong, please try again: Error message was " . $e->getMessage();
         }
     }
+
     public function setSessionOnLogin($username)
     {
         $_SESSION["username"] = $username;
         $_SESSION["loggedIn"] = true;
-        //$_SESSION["message"] = "Welcome";
         session_regenerate_id();
     }
+
     public function doLogout()
     {
         $_SESSION["loggedIn"] = false;

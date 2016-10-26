@@ -2,7 +2,8 @@
 
 require_once("controller/RegistrationController.php");
 
-class RegisterView {
+class RegisterView
+{
 
     private static $messageId = "RegisterView::Message";
     private static $name = "RegisterView::UserName";

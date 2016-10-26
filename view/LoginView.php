@@ -13,7 +13,8 @@ class LoginView {
 	private static $messageId = 'LoginView::Message';
 
 
-	public function response() {
+	public function response()
+    {
 
         $lc = new \controller\LoginController($_POST);
 
@@ -35,7 +36,8 @@ class LoginView {
 
 	}
 
-	private function generateLogoutButtonHTML($message) {
+	private function generateLogoutButtonHTML($message)
+    {
 		return '
 			<form  method="post" action="index.php" >
 				<p id="' . self::$messageId . '">' . $message .'</p>
@@ -44,8 +46,8 @@ class LoginView {
 		';
 	}
 
-	private function generateLoginFormHTML($message) {
-
+	private function generateLoginFormHTML($message)
+    {
 	    $userNameFromLogin = "";
         if(isset($_POST["LoginView::UserName"])){
             $userNameFromLogin = $_POST["LoginView::UserName"];
@@ -71,9 +73,4 @@ class LoginView {
 			</form>
 		';
 	}
-	
-	//TODO: CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
-	private function getRequestUserName() {
-	}
-	
 }
