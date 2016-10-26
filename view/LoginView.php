@@ -1,6 +1,6 @@
 <?php
 
-require_once("controller/LoginFormController.php");
+require_once("controller/LoginController.php");
 
 class LoginView {
 	private static $login = 'LoginView::Login';
@@ -12,8 +12,6 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 
-	//require_once('controller/LoginFormController.php');
-
 	/**
 	 * Create HTTP response
 	 *
@@ -23,11 +21,14 @@ class LoginView {
 	 */
 	public function response() {
 
-	    if(isset($_POST)){
+	    if(isset($_POST["loggedIn"]) && $_POST["loggedIn"] == TRUE){
 	        $message = 'Welcome ' . $_POST["LoginView::UserName"];
+	    } elseif (isset($_POST["loggedIn"]) && isset($_POST["loggedIn"])) {
+            $lc = new \controller\LoginController($_POST);
+	    	$message = $lc->doLogin();
 	    } else {
-	    	$message = '';
-	    }
+            $message = '';
+        }
 		
 		$this->generateLoginFormHTML($message);
 
