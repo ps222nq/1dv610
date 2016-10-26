@@ -9,6 +9,7 @@ class RegistrationController {
     private $data;
     private $validPassword = false;
     private $validUsername = false;
+    private $formErrorMessage;
     private $usernameErrorMessage;
     private $passwordErrorMessage;
 
@@ -21,12 +22,16 @@ class RegistrationController {
     {
         $this->validateRegistrationForm();
 
-        if(!$this->isUserNameValid()){
-            return $this->usernameErrorMessage;
+        if($this->formFieldsAreEmpty() === true){
+            return $this->formErrorMessage;
         }
 
-        if(!$this->isPasswordValid()){
+        if($this->isPasswordValid() === false){
             return $this->passwordErrorMessage;
+        }
+
+        if($this->isUserNameValid() === false){
+            return $this->usernameErrorMessage;
         }
 
         return "Registered new user";
@@ -48,6 +53,16 @@ class RegistrationController {
         $this->validatePassword();
     }
 
+    private function formFieldsAreEmpty()
+    {
+        if(empty($this->data["RegisterView::UserName"]) || empty($this->data["RegisterView::Password"])){
+            $formErrorMessage = "Username has too few characters, at least 3 characters.";
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private function validateUserName() {
 
         $candidate = $this->data["RegisterView::UserName"];
@@ -60,7 +75,7 @@ class RegistrationController {
     private function usernameIsLongEnough($username)
     {
         if (strlen($username) < 3) {
-            $this->usernameErrorMessage = "Username has too few characters, at least 3 characters";
+            $this->usernameErrorMessage = "Username has too few characters, at least 3 characters.";
             return false;
         } else {
             return true;
@@ -70,7 +85,7 @@ class RegistrationController {
     private function stringHasIllegalCharacters($str)
     {
         if ($str != strip_tags($str)){
-            $this->usernameErrorMessage = "Username contains invalid characters";
+            $this->usernameErrorMessage = "Username contains invalid characters.";
             return true;
         } else {
             return false;
@@ -80,7 +95,7 @@ class RegistrationController {
     private function validatePassword() {
 
         $candidate = $this->data["RegisterView::Password"];
-        $repeat = $this->data["RegisterView::RepeatPassword"];
+        $repeat = $this->data["RegisterView::PasswordRepeat"];
 
         if($this->passwordRepeatEqualsOriginal($candidate, $repeat)){
             if($this->passwordIsLongEnough($candidate) && $this->stringHasIllegalCharacters($candidate) === false){
@@ -92,7 +107,7 @@ class RegistrationController {
     private function passwordRepeatEqualsOriginal($original, $repeat)
     {
         if($repeat !== $original){
-            $this->passwordErrorMessage = "Passwords do not match";
+            $this->passwordErrorMessage = "Passwords do not match.";
             return false;
         } else {
             return true;
@@ -102,7 +117,7 @@ class RegistrationController {
     private function passwordIsLongEnough($password)
     {
         if (strlen($password) < 6) {
-            $this->passwordErrorMessage = "Password has too few characters, at least 6 characters";
+            $this->passwordErrorMessage = "Password has too few characters, at least 6 characters.";
             return false;
         } else {
             return true;

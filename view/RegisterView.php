@@ -24,6 +24,11 @@ class RegisterView {
 
     private function generateRegistrationFormHTML($message)
     {
+        $nameToPrefillOnError = "";
+        if(isset($_POST["RegisterView::UserName"])){
+            $nameToPrefillOnError = $_POST["RegisterView::UserName"];
+        }
+
         return '<form method="POST" action="index.php?register=1">
 				<fieldset>
 					<legend>Register a new user - write username and password</legend>
@@ -31,7 +36,7 @@ class RegisterView {
 					<p id="' . self::$messageId . '">' . $message . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
-					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="" />
+					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="' .$nameToPrefillOnError .'" />
 
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
