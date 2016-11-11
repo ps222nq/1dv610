@@ -1,5 +1,7 @@
 <?php
 
+namespace view;
+
 require_once("controller/RegistrationController.php");
 
 class RegisterView
@@ -16,7 +18,7 @@ class RegisterView
         $rc = new \controller\RegistrationController($_POST);
         $message = '';
 
-        if(isset($_POST["RegisterView::Register"])){
+        if(isset($_POST[self::$register])){
             $message = $rc->doRegistration();
         }
 
@@ -26,8 +28,8 @@ class RegisterView
     private function generateRegistrationFormHTML($message)
     {
         $nameToPrefillOnError = "";
-        if(isset($_POST["RegisterView::UserName"])){
-            $nameToPrefillOnError = strip_tags($_POST["RegisterView::UserName"]);
+        if(isset($_POST[self::$name])){
+            $nameToPrefillOnError = strip_tags($_POST[self::$name]);
         }
 
         return '<form method="POST" action="index.php?register=1">

@@ -1,10 +1,15 @@
 <?php
 
+namespace view;
+
+use model\Session;
+
 require_once("controller/LoginController.php");
+require_once ("controller/StateController.php");
 
 class LoginView {
 	private static $login = 'LoginView::Login';
-	private static $logout = 'LoginView::Logout';
+	public static $logout = 'LoginView::Logout';
 	private static $name = 'LoginView::UserName';
 	private static $password = 'LoginView::Password';
 	private static $cookieName = 'LoginView::CookieName';
@@ -15,20 +20,12 @@ class LoginView {
 
 	public function response()
     {
+        $session = new Session();
+        $message = $session->getFlashMessage();
 
-        $lc = new \controller\LoginController($_POST);
+        $state = new \controller\StateController();
 
-	    if(isset($_POST["loggedIn"]) && $_POST["loggedIn"] == TRUE){
-	        $message = 'Welcome ' . $_POST["LoginView::UserName"];
-	    } elseif (isset($_POST["LoginView::Login"])) {
-            $message = $lc->doLogin();
-        } elseif (isset($_POST["LoginView::Logout"]) && $_SESSION["loggedIn"] === true){
-            $message = $lc->doLogout();
-	    } else {
-            $message = '';
-        }
-
-        if($lc->authenticated === true){
+        if($state->userIsLoggedIn()){
             return $this->generateLogoutButtonHTML($message);
         }
 		return $this->generateLoginFormHTML($message);
@@ -49,8 +46,8 @@ class LoginView {
 	private function generateLoginFormHTML($message)
     {
 	    $userNameFromLogin = "";
-        if(isset($_POST["LoginView::UserName"])){
-            $userNameFromLogin = $_POST["LoginView::UserName"];
+        if($this->isLogInSetInPOST()){
+            $userNameFromLogin = $_POST[self::$name];
         }
 
 		return '
@@ -73,4 +70,32 @@ class LoginView {
 			</form>
 		';
 	}
+
+	public function isLogInSetInPOST()
+    {
+	    return isset($_POST[self::$login]);
+    }
+
+    public function isLogOutSetInPOST()
+    {
+        return isset($_POST[self::$logout]);
+    }
+
+    public function isKeepMeLoggedInSetInPOST()
+    {
+        return isset($_POST[self::$keep]);
+    }
+
+    public function getUserNameFromForm()
+    {
+        if(isset($_POST[self::$name])){
+            return $_POST[self::$name];
+        }
+
+    }
+
+    public function getPasswordFromForm()
+    {
+        return $_POST[self::$password];
+    }
 }
