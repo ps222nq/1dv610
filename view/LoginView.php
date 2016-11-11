@@ -73,4 +73,21 @@ class LoginView {
 			</form>
 		';
 	}
+
+	public function logInSetInPOST()
+    {
+	    return isset($_POST[self::$login]);
+    }
+
+    public function logOutSetInPOST()
+    {
+        return isset($_POST[self::$logout]);
+    }
+
+    public function keepLoggedInSetInPOST()
+    {
+        return isset($_POST[self::$keep]);
+    }
+
+
 }
