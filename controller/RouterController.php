@@ -27,22 +27,17 @@ class RouterController {
         $this->dateTimeView = new \view\DateTimeView();
         $this->layoutView = new \view\LayoutView();
         $this->state = new \controller\StateController();
-
-
     }
 
     public function route()
     {
         if($this->state->wantsToRegisterNewUser()) {
             $this->routeForRegistration();
-        }
-        elseif($this->state->POSTDataIsSet()) {
+        } elseif($this->state->POSTDataIsSet()) {
             $this->routeForPOSTRequest();
-        }
-        else{
+        } else {
             $this->routeForStart();
         }
-
     }
 
     private function routeForRegistration()
@@ -58,17 +53,14 @@ class RouterController {
             $this->session->setFlashMessage($this->loginController->doLogin());
             if($this->session->isLoggedIn()){
                 $this->layoutView->renderIsLoggedIn($this->loginView, $this->dateTimeView);
-            }
-            else {
+            } else {
                 $this->layoutView->renderIsNotLoggedIn($this->loginView, $this->dateTimeView);
             }
 
-        }
-        elseif($this->loginView->isLogOutSetInPOST()){
+        } elseif($this->loginView->isLogOutSetInPOST()) {
             $this->session->setFlashMessage($this->loginController->doLogout());
             $this->layoutView->renderIsNotLoggedIn($this->loginView, $this->dateTimeView);
-        }
-        else{
+        } else {
             $this->routeForStart();
         }
 

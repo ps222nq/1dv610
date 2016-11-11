@@ -8,5 +8,3 @@ ini_set('display_errors', 'On');
 
 $router = new \controller\RouterController();
 $router->route();
-
-

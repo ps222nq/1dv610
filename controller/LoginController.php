@@ -2,8 +2,6 @@
 
 namespace controller;
 
-use model\Session;
-
 require_once("model/Database.php");
 require_once ("model/Session.php");
 
@@ -21,12 +19,13 @@ class LoginController
     {
         $this->session = new \model\Session();
 
-        //todo: refactor so post data becomes model, not use superglobal here
+        //todo: refactor so post data becomes class in model namespace, do not use superglobal here
         $this->data = $_POST;
     }
 
     public function doLogin()
     {
+        //todo: should come from method in POST class in model instead of string dependency, see above todo
         $this->username = $this->data["LoginView::UserName"];
         $this->password = $this->data["LoginView::Password"];
 
