@@ -4,7 +4,7 @@ require_once("controller/LoginController.php");
 
 class LoginView {
 	private static $login = 'LoginView::Login';
-	private static $logout = 'LoginView::Logout';
+	public static $logout = 'LoginView::Logout';
 	private static $name = 'LoginView::UserName';
 	private static $password = 'LoginView::Password';
 	private static $cookieName = 'LoginView::CookieName';

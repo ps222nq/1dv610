@@ -14,7 +14,7 @@ ini_set('display_errors', 'On');
 $loginView = new LoginView();
 $registerView = new RegisterView();
 $dateTimeView = new DateTimeView();
-$layoutView = new LayoutView();
+$lv = new LayoutView();
 
 if(isset($_SESSION)){
     session_destroy();
@@ -23,12 +23,12 @@ session_start();
 
 
 if(isset($_GET["register"])) {
-    $layoutView->renderIsNotLoggedIn($registerView, $dateTimeView);
+    $lv->renderIsNotLoggedIn($registerView, $dateTimeView);
 } elseif (isset($_POST["LoginView::Login"]) && $_POST["LoginView::UserName"] == "Admin" && $_POST["LoginView::Password"] == "Password") {
     //TODO: remove this elseif when cause of test 1.7 failing is found: login works but h2 that should say "Logged in" says "Not logged in"
-    $layoutView->renderIsLoggedIn($loginView, $dateTimeView);
+    $lv->renderIsLoggedIn($loginView, $dateTimeView);
 } elseif(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == true && !isset($_POST["LoginView::Logout"])){
-    $layoutView->renderIsLoggedIn($loginView, $dateTimeView);
+    $lv->renderIsLoggedIn($loginView, $dateTimeView);
 } else {
-    $layoutView->renderIsNotLoggedIn($loginView, $dateTimeView);
+    $lv->renderIsNotLoggedIn($loginView, $dateTimeView);
 }
