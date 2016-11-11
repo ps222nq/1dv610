@@ -1,6 +1,7 @@
 <?php
 
 require_once("controller/LoginController.php");
+require_once ("controller/StateController.php");
 
 class LoginView {
 	private static $login = 'LoginView::Login';
@@ -17,12 +18,13 @@ class LoginView {
     {
 
         $lc = new \controller\LoginController($_POST);
+        $state = new \controller\StateController();
 
-	    if(isset($_POST["loggedIn"]) && $_POST["loggedIn"] == TRUE){
-	        $message = 'Welcome ' . $_POST["LoginView::UserName"];
-	    } elseif (isset($_POST["LoginView::Login"])) {
+	    if($state->userIsLoggedIn()){
+	        $message = 'Welcome ' . $this->getUserNameFromForm();
+	    } elseif ($this->isLogInSetInPOST()) {
             $message = $lc->doLogin();
-        } elseif (isset($_POST["LoginView::Logout"]) && $_SESSION["loggedIn"] === true){
+        } elseif ($this->isLogOutSetInPOST()){
             $message = $lc->doLogout();
 	    } else {
             $message = '';
@@ -74,20 +76,28 @@ class LoginView {
 		';
 	}
 
-	public function logInSetInPOST()
+	public function isLogInSetInPOST()
     {
 	    return isset($_POST[self::$login]);
     }
 
-    public function logOutSetInPOST()
+    public function isLogOutSetInPOST()
     {
         return isset($_POST[self::$logout]);
     }
 
-    public function keepLoggedInSetInPOST()
+    public function isKeepMeLoggedInSetInPOST()
     {
         return isset($_POST[self::$keep]);
     }
 
+    public function getUserNameFromForm()
+    {
+        return $_POST[self::$name];
+    }
 
+    public function getPasswordFromForm()
+    {
+        return $_POST[self::$password];
+    }
 }
