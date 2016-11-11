@@ -18,7 +18,8 @@ class RouterController {
         require_once ('controller/LoginController.php');
         require_once ('controller/RegistrationController.php');
 
-        //WARNING: Do not move this line as session initialization must be first thing to happen when page is loaded
+        //WARNING: Do NOT move this line or run any output above it
+        //as session initialization must be first thing to happen when page is loaded
         $this->session = new \model\Session();
 
         $this->loginView = new \view\LoginView();
@@ -39,7 +40,6 @@ class RouterController {
             $this->routeForPOSTRequest();
         }
         else{
-            echo "routing for start";
             $this->routeForStart();
         }
 
@@ -55,11 +55,17 @@ class RouterController {
         $this->loginController = new \controller\LoginController($_POST);
 
         if($this->loginView->isLogInSetInPOST()){
-            $this->loginController->doLogin();
-            $this->layoutView->renderIsLoggedIn($this->loginView, $this->dateTimeView);
+            $this->session->setFlashMessage($this->loginController->doLogin());
+            if($this->session->isLoggedIn()){
+                $this->layoutView->renderIsLoggedIn($this->loginView, $this->dateTimeView);
+            }
+            else {
+                $this->layoutView->renderIsNotLoggedIn($this->loginView, $this->dateTimeView);
+            }
+
         }
         elseif($this->loginView->isLogOutSetInPOST()){
-            $this->loginController->doLogout();
+            $this->session->setFlashMessage($this->loginController->doLogout());
             $this->layoutView->renderIsNotLoggedIn($this->loginView, $this->dateTimeView);
         }
         else{

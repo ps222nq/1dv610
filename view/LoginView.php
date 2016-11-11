@@ -2,6 +2,8 @@
 
 namespace view;
 
+use model\Session;
+
 require_once("controller/LoginController.php");
 require_once ("controller/StateController.php");
 
@@ -18,19 +20,10 @@ class LoginView {
 
 	public function response()
     {
-
+        $session = new Session();
+        $message = $session->getFlashMessage();
 
         $state = new \controller\StateController();
-
-	    if($state->userIsLoggedIn()){
-	        $message = 'Welcome ' . $this->getUserNameFromForm();
-	    } elseif ($this->isLogInSetInPOST()) {
-            $message = "something here";
-        } elseif ($this->isLogOutSetInPOST()){
-            $message = "Bye Bye";
-	    } else {
-            $message = '';
-        }
 
         if($state->userIsLoggedIn()){
             return $this->generateLogoutButtonHTML($message);

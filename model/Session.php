@@ -47,4 +47,19 @@ class Session
     {
         session_destroy();
     }
+
+    public function setFlashMessage($message)
+    {
+        $_SESSION["message"] = $message;
+    }
+
+    public function getFlashMessage()
+    {
+        if(isset($_SESSION["message"]) && strlen($_SESSION["message"]) > 0){
+            return $_SESSION["message"];
+        }
+        else {
+            return "";
+        }
+    }
 }
