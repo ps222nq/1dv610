@@ -12,8 +12,10 @@ class StateController
 
     public function userIsLoggedIn()
     {
-        var_dump($_SESSION);
-        return isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] === true;
+        if(isset($_SESSION["loggedIn"])){
+            return $_SESSION["loggedIn"];
+        }
+        return false;
     }
 
     public function POSTDataIsSet()

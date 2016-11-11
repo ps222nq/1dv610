@@ -19,15 +19,15 @@ class LoginView {
 	public function response()
     {
 
-        $lc = new \controller\LoginController($_POST);
+
         $state = new \controller\StateController();
 
 	    if($state->userIsLoggedIn()){
 	        $message = 'Welcome ' . $this->getUserNameFromForm();
 	    } elseif ($this->isLogInSetInPOST()) {
-            $message = $lc->doLogin();
+            $message = "something here";
         } elseif ($this->isLogOutSetInPOST()){
-            $message = $lc->doLogout();
+            $message = "Bye Bye";
 	    } else {
             $message = '';
         }
@@ -53,8 +53,8 @@ class LoginView {
 	private function generateLoginFormHTML($message)
     {
 	    $userNameFromLogin = "";
-        if(isset($_POST["LoginView::UserName"])){
-            $userNameFromLogin = $_POST["LoginView::UserName"];
+        if($this->isLogInSetInPOST()){
+            $userNameFromLogin = $_POST[self::$name];
         }
 
 		return '

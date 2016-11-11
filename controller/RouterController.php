@@ -4,6 +4,8 @@ namespace controller;
 
 class RouterController {
 
+    private $loginController;
+
     public function __construct()
     {
         require_once('model/Session.php');
@@ -13,7 +15,8 @@ class RouterController {
         require_once('view/LayoutView.php');
         require_once('view/RegisterView.php');
 
-        require_once ('controller/RouterController.php');
+        require_once ('controller/LoginController.php');
+        require_once ('controller/RegistrationController.php');
 
         //WARNING: Do not move this line as session initialization must be first thing to happen when page is loaded
         $this->session = new \model\Session();
@@ -23,6 +26,8 @@ class RouterController {
         $this->dateTimeView = new \view\DateTimeView();
         $this->layoutView = new \view\LayoutView();
         $this->state = new \controller\StateController();
+
+
     }
 
     public function route()
@@ -34,6 +39,7 @@ class RouterController {
             $this->routeForPOSTRequest();
         }
         else{
+            echo "routing for start";
             $this->routeForStart();
         }
 
@@ -46,16 +52,20 @@ class RouterController {
 
     private function routeForPOSTRequest()
     {
-        if($this->state->userIsLoggedIn()){
-            return $this->layoutView->renderIsLoggedIn($this->loginView, $this->dateTimeView);
+        $this->loginController = new \controller\LoginController($_POST);
+
+        if($this->loginView->isLogInSetInPOST()){
+            $this->loginController->doLogin();
+            $this->layoutView->renderIsLoggedIn($this->loginView, $this->dateTimeView);
         }
-        if($this->loginView->isLogOutSetInPOST()){
-            echo "router knows logout is set";
-            return $this->layoutView->renderIsNotLoggedIn($this->loginView, $this->dateTimeView);
+        elseif($this->loginView->isLogOutSetInPOST()){
+            $this->loginController->doLogout();
+            $this->layoutView->renderIsNotLoggedIn($this->loginView, $this->dateTimeView);
         }
-        else {
-            return $this->layoutView->renderIsNotLoggedIn($this->loginView, $this->dateTimeView);
+        else{
+            $this->routeForStart();
         }
+
     }
 
     private function routeForStart()

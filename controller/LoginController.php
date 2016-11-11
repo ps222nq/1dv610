@@ -2,32 +2,41 @@
 
 namespace controller;
 
+use model\Session;
+
 require_once("model/Database.php");
+require_once ("model/Session.php");
 
 class LoginController
 {
 
-    private $data;
     public $authenticated = false;
 
-    public function __construct($formData)
+    private $data;
+    private $username;
+    private $password;
+    private $session;
+
+    public function __construct()
     {
-        $this->data = $formData;
+        $this->session = new \model\Session();
+
+        //todo: refactor so post data becomes model, not use superglobal here
+        $this->data = $_POST;
     }
 
     public function doLogin()
     {
-        if(isset($_POST['LoginView::Login'])){
-            $username = $this->data["LoginView::UserName"];
-            $password = $this->data["LoginView::Password"];
-        }
-        if(empty($username)) {
+        $this->username = $this->data["LoginView::UserName"];
+        $this->password = $this->data["LoginView::Password"];
+
+        if(empty($this->username)) {
             return "Username is missing";
-        } elseif (empty($password)) {
+        } elseif (empty($this->password)) {
             return "Password is missing";
         } else {
-            if($this->authenticateUser($username, $password)){
-                $this->setSessionOnLogin($username);
+            if($this->authenticateUser($this->username, $this->password)){
+                $this->setSessionOnLogin();
                 $this->authenticated = true;
                 return "Welcome";
             } else {
@@ -45,19 +54,14 @@ class LoginController
         }
     }
 
-    public function setSessionOnLogin($username)
+    public function setSessionOnLogin()
     {
-        $_SESSION["username"] = $username;
-        $_SESSION["loggedIn"] = true;
-        session_regenerate_id();
+        $this->session->setLoggedInToTrue();
     }
 
     public function doLogout()
     {
-        echo "doLogout is called!";
-        unset($_SESSION["loggedIn"]);
-        unset($_SESSION["username"]);
-        session_destroy();
+        $this->session->setLoggedInToFalse();
         return "Bye bye!";
     }
 }
