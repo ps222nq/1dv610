@@ -1,5 +1,7 @@
 <?php
 
+namespace view;
+
 require_once("controller/LoginController.php");
 require_once ("controller/StateController.php");
 
@@ -30,7 +32,7 @@ class LoginView {
             $message = '';
         }
 
-        if($lc->authenticated === true){
+        if($state->userIsLoggedIn()){
             return $this->generateLogoutButtonHTML($message);
         }
 		return $this->generateLoginFormHTML($message);
@@ -93,7 +95,10 @@ class LoginView {
 
     public function getUserNameFromForm()
     {
-        return $_POST[self::$name];
+        if(isset($_POST[self::$name])){
+            return $_POST[self::$name];
+        }
+
     }
 
     public function getPasswordFromForm()

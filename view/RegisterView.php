@@ -1,5 +1,7 @@
 <?php
 
+namespace view;
+
 require_once("controller/RegistrationController.php");
 
 class RegisterView

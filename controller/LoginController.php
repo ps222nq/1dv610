@@ -54,8 +54,10 @@ class LoginController
 
     public function doLogout()
     {
-        $_SESSION["loggedIn"] = false;
+        echo "doLogout is called!";
+        unset($_SESSION["loggedIn"]);
         unset($_SESSION["username"]);
+        session_destroy();
         return "Bye bye!";
     }
 }
