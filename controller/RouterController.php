@@ -6,6 +6,7 @@ class RouterController {
 
     public function __construct()
     {
+        require_once('model/Session.php');
 
         require_once('view/LoginView.php');
         require_once('view/DateTimeView.php');
@@ -14,6 +15,8 @@ class RouterController {
 
         require_once ('controller/RouterController.php');
 
+        //WARNING: Do not move this line as session initialization must be first thing to happen when page is loaded
+        $this->session = new \model\Session();
 
         $this->loginView = new \view\LoginView();
         $this->registerView = new \view\RegisterView();
